@@ -150,6 +150,8 @@ function __setup_ssh_agent
 {
     local rc=~/.ssh-agent.rc
 
+    # Workaround for corp environment
+    [[ ! -S $SSH_AUTH_SOCK ]] || return 0
     __has_ssh_key || return 0
     [[ ! -f $rc ]] || source $rc
     if [[ $(ssh-add -l >& /dev/null; echo $?) == 2 ]]; then
